@@ -171,7 +171,6 @@ var tick = (elapsedTime, multiplier) => {
 
     // ── Integrate ──────────────────────────────────────────────────────────────
     logX = logX + dlogX * dt;
-    logE = logE + dlogE * dt;
     S    = Math.max(0.01, S + dS * dt);
     D    = Math.max(0.1,  D + dD * dt);
 
