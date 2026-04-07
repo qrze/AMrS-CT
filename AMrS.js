@@ -10,7 +10,7 @@ var description =
     "x (position) chases E (equilibrium) via logistic growth, while E is driven by x raised to a power α. " +
     "S (stability) and D (stress) modulate growth, creating rich multi-regime behaviour.";
 var authors = "pwwraisedd, melon";
-var version = 8;
+var version = 9;
 
 requiresGameVersion("1.4.33");
 
@@ -171,18 +171,19 @@ var tick = (elapsedTime, multiplier) => {
 
     // ── Integrate ──────────────────────────────────────────────────────────────
     logX = logX + dlogX * dt;
+    // logE is already updated by the analytical E block above
     S    = Math.max(0.01, S + dS * dt);
     D    = Math.max(0.1,  D + dD * dt);
 
     // ── Currency growth: Δρ = bonus * x * beta * dt ────────────────────────────
     let logDelta   = logX + Math.log10(Math.max(1e-300, beta * dt));
     let xBig       = BigNumber.from(10).pow(BigNumber.from(logDelta));
-    let rhoDelta   = xBig.times(bonus);
+    let rhoDelta = xBig * bonus;
 
     if (milestoneExplosion.level > 0)
-        rhoDelta = rhoDelta.times(BigNumber.from(1 + 10 * Math.exp(-D)));
+        rhoDelta = rhoDelta * BigNumber.from(1 + 10 * Math.exp(-D));
 
-    currency.value = currency.value.plus(rhoDelta);
+    currency.value += rhoDelta;
 
     theory.invalidatePrimaryEquation();
     theory.invalidateSecondaryEquation();
