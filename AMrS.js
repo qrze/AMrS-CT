@@ -10,7 +10,7 @@ var description =
     "x (position) chases E (equilibrium) via logistic growth, while E is driven by x raised to a power α. " +
     "S (stability) and D (stress) modulate growth, creating rich multi-regime behaviour.";
 var authors = "pwwraisedd, melon";
-var version = 10;
+var version = 9;
 requiresGameVersion("1.4.33");
 
 var logX = -1;
